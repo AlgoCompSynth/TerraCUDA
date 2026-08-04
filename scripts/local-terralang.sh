@@ -1,6 +1,6 @@
 #! /usr/bin/env -S bash -l
 
-set -euv
+set -eu
 
 mkdir --parents $HOME/Logfiles
 export LOGFILE=$HOME/Logfiles/terralang.log

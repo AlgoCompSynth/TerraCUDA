@@ -2,21 +2,13 @@
 
 set -eu
 
-mkdir --parents $HOME/Logfiles
-export LOGFILE=$HOME/Logfiles/neovim.log
-
-# https://github.com/terralang/terra#building-terra-with-cmake-linux-macos-freebsd
-pushd $HOME/Projects > /dev/null
-  echo "..Cloning neovim"
-  rm --force --recursive neovim
-  git clone --quiet https://github.com/neovim/neovim --branch stable 2> /dev/null
-  cd neovim
-  echo "..Building neovim"
-  make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$HOME/.local \
-    > $LOGFILE
+# https://neovim.io/doc/install/#install-from-download
+pushd $HOME/.local > /dev/null
   echo "..Installing neovim"
-  make install \
-    >> $LOGFILE
+  curl -sL \
+    https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz \
+    | tar xf - --gzip --strip-components=1
+
 popd > /dev/null
 
 echo "..Creating empty init.lua"

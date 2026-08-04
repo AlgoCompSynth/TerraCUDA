@@ -21,28 +21,37 @@ echo "..Install packages"
 sudo apt-get install -y \
   apt-file \
   build-essential \
-  clang-21 \
-  clang-21-doc \
+  byobu \
+  clang-22 \
+  clang-22-doc \
   cmake \
+  cpanminus \
+  ghostty \
   git \
-  libclang-21-dev \
+  libclang-22-dev \
   libcrypt-dev \
-  libllvmspirvlib-21-dev \
-  libomp-21-dev \
-  libomp-21-doc \
-  libpolly-21-dev \
+  libllvmspirvlib-22-dev \
+  libomp-22-dev \
+  libomp-22-doc \
+  libpolly-22-dev \
   libreadline-dev \
-  llvm-21-dev \
-  llvm-21-doc \
+  libzstd-dev \
+  llvm-22-dev \
+  llvm-22-doc \
   openssh-client \
   plocate \
   python3-pynvim \
+  time \
+  tmux \
+  tree \
   ripgrep \
   ruby-neovim \
   unzip \
   vim-nox \
-  wl-clipboard \
+  xdg-utils \
+  zip \
   >> $LOGFILE
+
 echo "..Update locate database"
 sudo updatedb \
   >> $LOGFILE
