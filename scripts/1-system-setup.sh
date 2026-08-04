@@ -21,36 +21,28 @@ echo "..Install packages"
 sudo apt-get install -y \
   apt-file \
   build-essential \
-  byobu \
-  clang-22 \
-  clang-22-doc \
   cmake \
-  cpanminus \
-  ghostty \
   git \
-  libclang-22-dev \
   libcrypt-dev \
-  libllvmspirvlib-22-dev \
-  libomp-22-dev \
-  libomp-22-doc \
-  libpolly-22-dev \
   libreadline-dev \
   libzstd-dev \
-  llvm-22-dev \
-  llvm-22-doc \
+  neovim \
   openssh-client \
   plocate \
   python3-pynvim \
+  snapd \
   time \
   tmux \
   tree \
   ripgrep \
-  ruby-neovim \
   unzip \
   vim-nox \
   xdg-utils \
   zip \
   >> $LOGFILE
+
+echo "..Install ghostty"
+sudo snap install ghostty --classic
 
 echo "..Update locate database"
 sudo updatedb \
