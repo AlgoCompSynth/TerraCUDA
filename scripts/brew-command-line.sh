@@ -2,6 +2,9 @@
 
 set -eu
 
+echo "..Setting up home directory"
+mkdir --parents $HOME/.local/bin $HOME/Logfiles $HOME/Projects
+
 echo "..Activating Homebrew PATH"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 
@@ -38,4 +41,4 @@ then
 fi
 
 echo "..Cleaning up"
-brew cleanup --prune all --scrub --verbose
+brew cleanup --prune all --scrub --quiet

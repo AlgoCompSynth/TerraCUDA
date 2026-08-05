@@ -2,9 +2,28 @@
 
 set -eu
 
+mkdir --parents $HOME/.local/bin
 mkdir --parents $HOME/Logfiles
 export LOGFILE=$HOME/Logfiles/terralang.log
 rm --force $LOGFILE
+
+export ARCH="$(uname --machine)"
+if [[ "$ARCH" != "aarch64" && "$ARCH" != "x86_64" ]]
+then
+  echo "Unsupported architecture!"
+  exit -255
+
+fi
+
+# https://github.com/terralang/llvm-build
+export LLVM_VERSION=22.1.8
+export TARBALL=clang+llvm-$LLVM_VERSION-$ARCH-linux-gnu.tar.xz
+export TARBALL_URL=https://github.com/terralang/llvm-build/releases/download/llvm-$LLVM_VERSION/$TARBALL
+echo "..Installing clang-llvm tarball"
+curl -sL \
+  $TARBALL_URL \
+  | tar xJf - --directory=$HOME/.local --strip-components=1
+echo "..clang-llvm  installed"
 
 # https://github.com/terralang/terra#building-terra-with-cmake-linux-macos-freebsd
 pushd $HOME/Projects > /dev/null

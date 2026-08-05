@@ -86,4 +86,4 @@ brew install --yes --quiet \
   || true
 
 echo "..Cleaning up"
-brew cleanup --prune all --scrub --verbose
+brew cleanup --prune all --scrub --quiet
