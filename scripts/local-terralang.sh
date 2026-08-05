@@ -4,10 +4,7 @@ set -eu
 
 mkdir --parents $HOME/Logfiles
 export LOGFILE=$HOME/Logfiles/terralang.log
-
-echo "..Listing installed dependencies"
-dpkg-query --list | egrep -i 'CUDA|nvidia|llvm|clang' || true \
-  > $LOGFILE
+rm --force $LOGFILE
 
 # https://github.com/terralang/terra#building-terra-with-cmake-linux-macos-freebsd
 pushd $HOME/Projects > /dev/null
@@ -17,7 +14,7 @@ pushd $HOME/Projects > /dev/null
   cd terra/build
 
   echo "..Configuring terra"
-  cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$HOME/.local .. \
+  cmake -Wno-author -DCMAKE_INSTALL_PREFIX=$HOME/.local .. \
     >> $LOGFILE
 
   echo "..Installing terra"
