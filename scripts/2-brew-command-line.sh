@@ -17,12 +17,11 @@ brew install --yes --quiet \
   make \
   neovim \
   starship \
-  tree \
-  tmux
+  tree
 
 echo "..Setting configuration files"
 mkdir --parents $HOME/.config
-cp -rp starship.toml nvim tmux $HOME/.config
+cp -rp starship.toml nvim $HOME/.config
 
 if [[ "$(grep starship $HOME/.bashrc | wc -l)" == 0 ]]
 then
