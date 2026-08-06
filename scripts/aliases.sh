@@ -8,6 +8,8 @@ fi
 alias l='ls -CF --color=auto'
 alias ll='ls -Fltr'
 alias la='ls -FAltr'
+alias vi=nvim
+alias vim=nvim
 
 export EDITOR=nvim
 export VISUAL=nvim

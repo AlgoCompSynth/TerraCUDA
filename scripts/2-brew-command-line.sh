@@ -16,6 +16,7 @@ brew install --yes --quiet \
   luajit \
   make \
   neovim \
+  ripgrep \
   starship \
   tree
 

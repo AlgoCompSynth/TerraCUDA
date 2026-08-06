@@ -18,13 +18,13 @@ echo "..You need to set a password for $USER to install Homebrew in the containe
 distrobox enter TerraCUDA -- sudo passwd $USER
 
 echo "..Installing Homebrew"
-distrobox enter TerraCUDA -- ./install-homebrew.sh
+distrobox enter TerraCUDA -- ./1-install-homebrew.sh
 
 echo "..Installing command line utilities"
-distrobox enter TerraCUDA -- ./brew-command-line.sh
+distrobox enter TerraCUDA -- ./2-brew-command-line.sh
 
 echo "..Installing Terra"
-distrobox enter TerraCUDA -- ./localbin-terralang.sh
+distrobox enter TerraCUDA -- ./3-localbin-terralang.sh
 
 echo "** Finished Build CUDA Container ** "
 echo ""
