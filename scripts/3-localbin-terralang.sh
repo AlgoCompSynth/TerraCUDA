@@ -2,6 +2,9 @@
 
 set -eu
 
+echo "..Activating Homebrew PATH"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+
 mkdir --parents $HOME/.local/bin
 mkdir --parents $HOME/Logfiles
 export LOGFILE=$HOME/Logfiles/terralang.log
