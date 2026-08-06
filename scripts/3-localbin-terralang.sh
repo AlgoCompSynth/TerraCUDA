@@ -56,7 +56,7 @@ pushd $HOME/Projects > /dev/null
     >> $LOGFILE
 
   echo "..Installing terra"
-  make install -j$MAKE_JOBS \
+  /usr/bin/time make install -j$MAKE_JOBS \
     >> $LOGFILE 2>&1
 
   echo "..Testing terra"
