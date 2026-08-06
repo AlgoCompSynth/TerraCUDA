@@ -14,7 +14,6 @@ brew install --yes --quiet \
   fennel \
   lua \
   luajit \
-  make \
   neovim \
   ripgrep \
   starship \

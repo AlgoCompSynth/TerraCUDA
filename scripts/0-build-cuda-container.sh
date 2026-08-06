@@ -23,7 +23,7 @@ distrobox enter TerraCUDA -- ./1-install-homebrew.sh
 echo "..Installing command line utilities"
 distrobox enter TerraCUDA -- ./2-brew-command-line.sh
 
-echo "..Installing Terra"
+echo "..Installing LLVM & Terra"
 distrobox enter TerraCUDA -- ./3-localbin-terralang.sh
 
 echo "** Finished Build CUDA Container ** "
