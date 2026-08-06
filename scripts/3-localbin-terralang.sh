@@ -7,13 +7,29 @@ mkdir --parents $HOME/Logfiles
 export LOGFILE=$HOME/Logfiles/terralang.log
 rm --force $LOGFILE
 
+echo "..Checking architecture"
 export ARCH="$(uname --machine)"
+echo "ARCH: $ARCH"
 if [[ "$ARCH" != "aarch64" && "$ARCH" != "x86_64" ]]
 then
   echo "Unsupported architecture!"
   exit -255
 
 fi
+
+echo "..Checking RAM"
+export RAM_KB="$(grep MemTotal: /proc/meminfo | sed 's/MemTotal:  *//' | sed 's/ .*$//')"
+echo "RAM_KB: $RAM_KB"
+if [[ "$RAM_KB" -lt "3750000" ]]
+then
+  export MAKE_JOBS=1
+
+else
+  export MAKE_JOBS="$(nproc)"
+
+fi
+
+echo "MAKE_JOBS: $MAKE_JOBS"
 
 # https://github.com/terralang/llvm-build
 export LLVM_VERSION=22.1.8
@@ -33,11 +49,11 @@ pushd $HOME/Projects > /dev/null
   cd terra/build
 
   echo "..Configuring terra"
-  cmake -Wno-author -DCMAKE_INSTALL_PREFIX=$HOME/.local .. \
+  cmake -Wno-dev -Wno-author -DCMAKE_INSTALL_PREFIX=$HOME/.local .. \
     >> $LOGFILE
 
   echo "..Installing terra"
-  make install -j$(nproc) \
+  make install -j$MAKE_JOBS \
     >> $LOGFILE 2>&1
 
   echo "..Testing terra"
