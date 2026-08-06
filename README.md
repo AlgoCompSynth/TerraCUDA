@@ -1,2 +1,3 @@
-# CLAMS
-Command Line Algorithmic Music System
+# TerraCUDA
+
+A Terra language container for CUDA GPUs
