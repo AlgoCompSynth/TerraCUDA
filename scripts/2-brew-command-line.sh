@@ -17,6 +17,7 @@ brew install --yes --quiet \
   neovim \
   ripgrep \
   starship \
+  tmux \
   tree
 
 echo "..Setting configuration files"
