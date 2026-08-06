@@ -61,7 +61,7 @@ pushd $HOME/Projects > /dev/null
 
   echo "..Testing terra"
   cd ../tests
-  terra run \
+  /usr/bin/time terra run \
     >> $LOGFILE 2>&1 || true
 
 popd > /dev/null
