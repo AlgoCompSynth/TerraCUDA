@@ -36,13 +36,39 @@ echo "MAKE_JOBS: $MAKE_JOBS"
 
 # https://github.com/terralang/llvm-build
 export LLVM_VERSION=22.1.8
-export TARBALL=clang+llvm-$LLVM_VERSION-$ARCH-linux-gnu.tar.xz
-export TARBALL_URL=https://github.com/terralang/llvm-build/releases/download/llvm-$LLVM_VERSION/$TARBALL
+export LLVM_TARBALL=clang+llvm-$LLVM_VERSION-$ARCH-linux-gnu.tar.xz
+export LLVM_URL=https://github.com/terralang/llvm-build/releases/download/llvm-$LLVM_VERSION/$LLVM_TARBALL
 echo "..Installing clang-llvm tarball"
 curl -sL \
-  $TARBALL_URL \
+  $LLVM_URL \
   | tar xJf - --directory=$HOME/.local --strip-components=1
 echo "..clang-llvm  installed"
+
+# https://github/terralang/terra
+if [[ "$ARCH" == "aarch64" ]]
+then
+  echo "..Installing pre-compiled Terra binaries"
+  export TERRA_RELEASE=1.2.1
+  export TERRA_COMMIT=8a0c0f0
+  export TERRA_TARBALL=terra-Linux-$ARCH-$TERRA_COMMIT.tar.xz
+  export TERRA_URL=https://github.com/terralang/terra/releases/download/release-$TERRA_RELEASE/$TERRA_TARBALL
+  curl -sL \
+    $TERRA_URL \
+    | tar xJf - --directory=$HOME/.local --strip-components=1
+  echo "..terra installed"
+
+  pushd $HOME/.local/share/terra/tests/ > /dev/null
+    echo "..Testing terra"
+    /usr/bin/time terra run \
+      >> $LOGFILE 2>&1 || true
+    echo "..terra is installed"
+
+  popd
+
+  echo "..Exiting with success"
+  exit 0
+
+fi
 
 # https://github.com/terralang/terra#building-terra-with-cmake-linux-macos-freebsd
 pushd $HOME/Projects > /dev/null
