@@ -14,11 +14,26 @@ echo "..Checking architecture"
 export ARCH="$(uname --machine)"
 echo "ARCH: $ARCH"
 if [[ "$ARCH" != "aarch64" && "$ARCH" != "x86_64" ]]
+
 then
   echo "Unsupported architecture!"
   exit -255
 
 fi
+
+echo "..Checking GPU"
+if [[ "$ARCH" == "x86_64" \
+  && "$(which nvidia-smi 2> /dev/null | wc -l)" > "0" ]]
+
+then
+  export COMPUTE_MODE="CUDA"
+
+else
+  export COMPUTE_MODE="CPU"
+
+fi
+
+echo "COMPUTE_MODE: $COMPUTE_MODE"
 
 echo "..Checking RAM"
 export RAM_KB="$(grep MemTotal: /proc/meminfo | sed 's/MemTotal:  *//' | sed 's/ .*$//')"
@@ -45,7 +60,8 @@ curl -sL \
 echo "..clang-llvm  installed"
 
 # https://github/terralang/terra
-if [[ "$ARCH" == "aarch64" ]]
+if [[ "$COMPUTE_MODE" == "CPU" ]]
+
 then
   echo "..Installing pre-compiled Terra binaries"
   export TERRA_RELEASE=1.2.1
@@ -59,6 +75,14 @@ then
 
   pushd $HOME/.local/share/terra/tests/ > /dev/null
     echo "..Testing terra"
+
+    if [[ "$MAKE_JOBS" == "1" ]]
+    then
+      echo "..Insufficient RAM - moving 'cconv_fuzz.t' to $HOME"
+      mv --force cconv_fuzz.t $HOME
+
+    fi
+
     /usr/bin/time terra run \
       >> $LOGFILE 2>&1 || true
     echo "..terra is installed"
@@ -87,6 +111,7 @@ pushd $HOME/Projects > /dev/null
 
   echo "..Testing terra"
   cd ../tests
+  mv --force cconv_fuzz.t ~
   /usr/bin/time terra run \
     >> $LOGFILE 2>&1 || true
 
