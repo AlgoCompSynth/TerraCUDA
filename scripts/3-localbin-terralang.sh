@@ -23,7 +23,8 @@ fi
 
 echo "..Checking GPU"
 if [[ "$ARCH" == "x86_64" \
-  && "$(which nvidia-smi 2> /dev/null | wc -l)" > "0" ]]
+  && "$(which nvidia-smi 2> /dev/null | wc -l)" > "0" \
+  && "$(nvidia-smi --list-gpus 2> /dev/null | wc -l)" > "0" ]]
 
 then
   export COMPUTE_MODE="CUDA"
