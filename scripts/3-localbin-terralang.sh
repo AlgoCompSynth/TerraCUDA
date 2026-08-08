@@ -39,7 +39,7 @@ echo "COMPUTE_MODE: $COMPUTE_MODE"
 echo "..Checking RAM"
 export RAM_KB="$(grep MemTotal: /proc/meminfo | sed 's/MemTotal:  *//' | sed 's/ .*$//')"
 echo "RAM_KB: $RAM_KB"
-if [[ "$RAM_KB" -lt "1500000" ]]
+if [[ "$RAM_KB" -lt "3000000" ]]
 then
   export MAKE_JOBS=1
 
