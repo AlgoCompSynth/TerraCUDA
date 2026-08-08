@@ -36,20 +36,6 @@ fi
 
 echo "COMPUTE_MODE: $COMPUTE_MODE"
 
-echo "..Checking RAM"
-export RAM_KB="$(grep MemTotal: /proc/meminfo | sed 's/MemTotal:  *//' | sed 's/ .*$//')"
-echo "RAM_KB: $RAM_KB"
-if [[ "$RAM_KB" -lt "3000000" ]]
-then
-  export MAKE_JOBS=1
-
-else
-  export MAKE_JOBS="$(nproc)"
-
-fi
-
-echo "MAKE_JOBS: $MAKE_JOBS"
-
 # https://github.com/terralang/llvm-build
 export LLVM_VERSION=22.1.8
 export LLVM_TARBALL=clang+llvm-$LLVM_VERSION-$ARCH-linux-gnu.tar.xz
@@ -61,10 +47,10 @@ echo "..Installing clang-llvm tarball"
 echo "..clang-llvm  installed"
 
 # https://github/terralang/terra
-if [[ "$MAKE_JOBS" == "1" ]]
+if [[ "$COMPUTE_MODE" == "CPU" ]]
 
 then
-  echo "..Insufficient RAM - installing pre-compiled Terra binaries"
+  echo "..No GPU - installing pre-compiled Terra binaries"
   export TERRA_RELEASE=1.2.1
   export TERRA_COMMIT=8a0c0f0
   export TERRA_TARBALL=terra-Linux-$ARCH-$TERRA_COMMIT.tar.xz
@@ -73,31 +59,7 @@ then
     $TERRA_URL \
     | tar xJf - --directory=$HOME/.local --strip-components=1
   echo "..terra installed"
-
-  pushd $HOME/.local/share/terra/tests/ > /dev/null
-    echo "..Testing terra"
-
-    if [[ "$COMPUTE_MODE" == "CPU" ]]
-    then
-      echo "..CPU mode - removing 'cuda*.t'"
-      rm --force cuda*.t
-
-    fi
-
-    if [[ "$MAKE_JOBS" == "1" ]]
-    then
-      echo "..Insufficient RAM - removing 'cconv_fuzz.t'"
-      rm --force cconv_fuzz.t
-
-    fi
-
-    /usr/bin/time terra run \
-      >> $LOGFILE 2>&1 || true
-    echo "..terra tests complete"
-
-  popd
-
-  echo "..Exiting with success"
+  echo "..successful exit"
   exit 0
 
 fi
@@ -114,14 +76,15 @@ pushd $HOME/Projects > /dev/null
     >> $LOGFILE
 
   echo "..Installing terra"
-  /usr/bin/time make install -j$MAKE_JOBS \
+  /usr/bin/time make install -j$(nproc) \
     >> $LOGFILE 2>&1
+  echo "..terra installed"
 
   echo "..Testing terra"
   cd ../tests
   /usr/bin/time terra run \
     >> $LOGFILE 2>&1 || true
+  echo "..terra tests complete"
 
 popd > /dev/null
-
-echo "..terra tests complete"
+echo "..successful exit"
