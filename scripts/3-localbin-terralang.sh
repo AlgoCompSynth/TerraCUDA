@@ -38,7 +38,7 @@ echo "COMPUTE_MODE: $COMPUTE_MODE"
 echo "..Checking RAM"
 export RAM_KB="$(grep MemTotal: /proc/meminfo | sed 's/MemTotal:  *//' | sed 's/ .*$//')"
 echo "RAM_KB: $RAM_KB"
-if [[ "$RAM_KB" -lt "3750000" ]]
+if [[ "$RAM_KB" -lt "1500000" ]]
 then
   export MAKE_JOBS=1
 
@@ -54,21 +54,21 @@ export LLVM_VERSION=22.1.8
 export LLVM_TARBALL=clang+llvm-$LLVM_VERSION-$ARCH-linux-gnu.tar.xz
 export LLVM_URL=https://github.com/terralang/llvm-build/releases/download/llvm-$LLVM_VERSION/$LLVM_TARBALL
 echo "..Installing clang-llvm tarball"
-curl -sL \
+/usr/bin/time curl -sL \
   $LLVM_URL \
   | tar xJf - --directory=$HOME/.local --strip-components=1
 echo "..clang-llvm  installed"
 
 # https://github/terralang/terra
-if [[ "$COMPUTE_MODE" == "CPU" ]]
+if [[ "$MAKE_JOBS" == "1" ]]
 
 then
-  echo "..Installing pre-compiled Terra binaries"
+  echo "..Insufficient RAM - installing pre-compiled Terra binaries"
   export TERRA_RELEASE=1.2.1
   export TERRA_COMMIT=8a0c0f0
   export TERRA_TARBALL=terra-Linux-$ARCH-$TERRA_COMMIT.tar.xz
   export TERRA_URL=https://github.com/terralang/terra/releases/download/release-$TERRA_RELEASE/$TERRA_TARBALL
-  curl -sL \
+  /usr/bin/time curl -sL \
     $TERRA_URL \
     | tar xJf - --directory=$HOME/.local --strip-components=1
   echo "..terra installed"
@@ -76,16 +76,23 @@ then
   pushd $HOME/.local/share/terra/tests/ > /dev/null
     echo "..Testing terra"
 
+    if [[ "$COMPUTE_MODE" == "CPU" ]]
+    then
+      echo "..CPU mode - removing 'cuda*.t'"
+      rm --force cuda*.t
+
+    fi
+
     if [[ "$MAKE_JOBS" == "1" ]]
     then
-      echo "..Insufficient RAM - moving 'cconv_fuzz.t' to $HOME"
-      mv --force cconv_fuzz.t $HOME
+      echo "..Insufficient RAM - removing 'cconv_fuzz.t'"
+      rm --force cconv_fuzz.t
 
     fi
 
     /usr/bin/time terra run \
       >> $LOGFILE 2>&1 || true
-    echo "..terra is installed"
+    echo "..terra tests complete"
 
   popd
 
@@ -111,10 +118,9 @@ pushd $HOME/Projects > /dev/null
 
   echo "..Testing terra"
   cd ../tests
-  mv --force cconv_fuzz.t ~
   /usr/bin/time terra run \
     >> $LOGFILE 2>&1 || true
 
 popd > /dev/null
 
-echo "..terra is installed"
+echo "..terra tests complete"
