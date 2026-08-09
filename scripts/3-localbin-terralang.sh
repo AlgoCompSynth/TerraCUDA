@@ -72,6 +72,7 @@ pushd $HOME/Projects > /dev/null
   cd terra/build
 
   echo "..Configuring terra"
+  brew install --quiet cmake
   cmake -Wno-dev -Wno-author -DCMAKE_INSTALL_PREFIX=$HOME/.local .. \
     >> $LOGFILE
 
