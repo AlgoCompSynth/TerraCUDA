@@ -22,7 +22,7 @@ brew install --yes --quiet \
   ripgrep \
   starship \
   tmux \
-  tree
+  tree >/dev/null 2>&1
 
 echo "..Setting configuration files"
 mkdir --parents $HOME/.config
@@ -45,4 +45,4 @@ then
 fi
 
 echo "..Cleaning up"
-brew cleanup --prune all --scrub --quiet
+brew cleanup --prune all --scrub --quiet >/dev/null 2>&1

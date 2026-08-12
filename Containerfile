@@ -2,9 +2,9 @@ FROM docker.io/library/ubuntu:resolute
 LABEL maintainer="M. Edward (Ed) Borasky <znmeb@algocompsynth.com>"
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN userdel --remove ubuntu \
-  && apt-get update -qq \
-  && apt-get full-upgrade -qqy \
+RUN userdel --remove ubuntu 2>/dev/null \
+  && apt-get update -qq >/dev/null \
+  && apt-get full-upgrade -qqy >/dev/null \
   && apt-get install -qqy --no-install-recommends \
     apt-file \
     build-essential \
@@ -15,5 +15,5 @@ RUN userdel --remove ubuntu \
     plocate \
     systemd \
     time \
-    unminimize \
-  && echo "y" | unminimize
+    unminimize >/dev/null \
+  && echo "y" | unminimize >/dev/null

@@ -3,8 +3,9 @@
 set -eu
 
 echo "..Installing Homebrew"
-/bin/bash -c \
-  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c \
+  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+  >/dev/null 2>&1
 
 echo "..Adding Homebrew to the command line"
 echo "" >> $HOME/.bashrc
