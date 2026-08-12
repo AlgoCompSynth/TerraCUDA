@@ -22,7 +22,12 @@ brew install --yes --quiet \
   ripgrep \
   starship \
   tmux \
-  tree >/dev/null 2>&1
+  tree \
+  >> $LOGFILE 2>&1
+
+echo "..Cleaning up"
+brew cleanup --prune all --scrub --quiet \
+  >> $LOGFILE 2>&1
 
 echo "..Setting configuration files"
 mkdir --parents $HOME/.config
@@ -43,6 +48,3 @@ then
   echo 'eval "$(starship init zsh)"' >> $HOME/.zshrc
 
 fi
-
-echo "..Cleaning up"
-brew cleanup --prune all --scrub --quiet >/dev/null 2>&1

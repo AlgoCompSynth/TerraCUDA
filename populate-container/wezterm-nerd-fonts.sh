@@ -13,8 +13,10 @@ curl -fsSL https://apt.fury.io/wez/gpg.key \
 echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' \
   | sudo tee /etc/apt/sources.list.d/wezterm.list
 sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
-sudo apt-get update
-sudo apt-get install -qqy wezterm
+sudo apt-get update \
+  >> $LOGFILE 2>&1
+sudo apt-get install -qqy wezterm \
+  >> $LOGFILE 2>&1
 
 echo "..Setting $HOME/.wezterm.lua"
 cp wezterm.lua $HOME/.wezterm.lua
@@ -101,7 +103,8 @@ brew install --yes --quiet \
   font-ubuntu-sans-nerd-font \
   font-victor-mono-nerd-font \
   font-zed-mono-nerd-font \
-  || true
+  || true >> $LOGFILE 2>&1
 
 echo "..Cleaning up"
-brew cleanup --prune all --scrub --quiet
+brew cleanup --prune all --scrub --quiet \
+  >> $LOGFILE 2>&1

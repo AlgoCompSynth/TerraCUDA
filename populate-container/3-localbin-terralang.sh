@@ -6,9 +6,18 @@ echo "..Activating Homebrew PATH"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 
 mkdir --parents $HOME/.local/bin
-mkdir --parents $HOME/Logfiles
-export LOGFILE=$HOME/Logfiles/terralang.log
-rm --force $LOGFILE
+
+echo "..Installing Terra brew dependencies"
+brew install --yes --quiet \
+  cmake \
+  lld \
+  llvm \
+  spirv-llvm-translator \
+  >> $LOGFILE 2>&1
+
+echo "..Cleaning up"
+brew cleanup --prune all --scrub --quiet \
+  >> $LOGFILE 2>&1
 
 pushd $HOME/Projects > /dev/null
   echo "..Cloning terra"
@@ -18,7 +27,7 @@ pushd $HOME/Projects > /dev/null
 
   echo "..Configuring terra"
   cmake -Wno-dev -Wno-author -DCMAKE_INSTALL_PREFIX=$HOME/.local .. \
-    >> $LOGFILE
+    >> $LOGFILE 2>&1
 
   echo "..Installing terra"
   /usr/bin/time make install -j$(nproc) \

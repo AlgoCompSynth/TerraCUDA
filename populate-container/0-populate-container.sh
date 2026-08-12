@@ -5,6 +5,10 @@ set -eu
 echo ""
 echo "** Populate Container ** "
 
+mkdir --parents $HOME/Logfiles
+export LOGFILE=$HOME/Logfiles/populate-container.log
+rm --force $LOGFILE
+
 if [[ "$CONTAINER_ID" =~ "CUDA" ]]
 
 then
