@@ -5,9 +5,6 @@ set -eu
 echo ""
 echo "** Populate Container ** "
 
-echo "..dnf5 installs"
-./dnf5-installs.sh
-
 if [[ "$CONTAINER_ID" =~ "CUDA" ]]
 
 then

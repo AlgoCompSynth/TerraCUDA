@@ -5,6 +5,24 @@ set -eu
 echo "..Activating Homebrew PATH"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 
+# https://wezterm.org/install/linux.html
+echo "..Installing WezTerm"
+export DEBIAN_FRONTEND=noninteractive
+curl -fsSL https://apt.fury.io/wez/gpg.key \
+  | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' \
+  | sudo tee /etc/apt/sources.list.d/wezterm.list
+sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
+sudo apt-get update
+sudo apt-get install -qqy wezterm
+
+echo "..Setting $HOME/.wezterm.lua"
+cp wezterm.lua $HOME/.wezterm.lua
+
+echo "..Exporting WezTerm to host"
+distrobox-export --app \
+  /usr/share/applications/org.wezfurlong.wezterm.desktop
+
 echo "..Installing many nerd fonts!"
 brew install --yes --quiet \
   font-0xproto-nerd-font \
