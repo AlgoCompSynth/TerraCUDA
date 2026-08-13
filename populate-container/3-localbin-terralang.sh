@@ -9,7 +9,6 @@ mkdir --parents $HOME/.local/bin
 
 echo "..Installing Terra brew dependencies"
 brew install --yes --quiet \
-  cmake \
   lld \
   llvm \
   spirv-llvm-translator \
