@@ -12,6 +12,7 @@ echo "..Installing brew packages"
 brew install --yes --quiet \
   faust \
   fennel \
+  font-fira-code-nerd-font \
   lua \
   luajit \
   neovim \
