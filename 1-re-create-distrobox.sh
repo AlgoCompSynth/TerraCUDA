@@ -23,7 +23,7 @@ echo "..Re-creating $CONTAINER_NAME"
 distrobox assemble create \
   --name $CONTAINER_NAME
 
-echo "..You need to set a $USER password to use 'sudo' in the container"
+echo "..You need to set a '$USER' password to use 'sudo' in the container"
 distrobox enter $CONTAINER_NAME -- sudo passwd $USER
 
 cp -rp populate-container $CONTAINER_HOME
