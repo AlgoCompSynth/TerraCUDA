@@ -10,16 +10,12 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 
 echo "..Installing brew packages"
 brew install --yes --quiet \
-  cmake \
   faust \
   fennel \
-  lld \
-  llvm \
   lua \
   luajit \
   neovim \
   ripgrep \
-  spirv-llvm-translator \
   starship \
   tmux \
   tree \

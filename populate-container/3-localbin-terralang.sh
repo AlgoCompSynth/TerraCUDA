@@ -7,6 +7,18 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 
 mkdir --parents $HOME/.local/bin
 
+echo "..Installing brew packages"
+brew install --yes --quiet \
+  cmake \
+  lld \
+  llvm \
+  spirv-llvm-translator \
+  >> $LOGFILE 2>&1
+
+echo "..Cleaning up"
+brew cleanup --prune all --scrub --quiet \
+  >> $LOGFILE 2>&1
+
 pushd $HOME/Projects > /dev/null
   echo "..Cloning terra"
   rm --force --recursive terra
