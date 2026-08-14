@@ -29,7 +29,7 @@ brew cleanup --prune all --scrub --quiet \
 pushd $HOME/Projects > /dev/null
   echo "....Cloning terra"
   rm --force --recursive terra
-  git clone --quiet https://github.com/terralang/terra.git
+  git clone --quiet https://github.com/terralang/terra.git --branch release-1.2.2
   cd terra/build
 
   echo "....Configuring terra"
