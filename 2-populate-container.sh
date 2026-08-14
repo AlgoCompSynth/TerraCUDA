@@ -34,13 +34,5 @@ popd > /dev/null
 echo ""
 podman image list
 
-mkdir --parents $HOME/.local/bin
-export ENTRY_SCRIPT=$HOME/.local/bin/$CONTAINER_NAME
-echo "..Creating command line entry script $ENTRY_SCRIPT"
-echo \
-  "distrobox enter $CONTAINER_NAME" \
-  > $ENTRY_SCRIPT
-chmod +x $ENTRY_SCRIPT
-
 echo "* Finished Populate Container *"
 echo ""
