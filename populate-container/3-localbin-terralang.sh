@@ -16,7 +16,10 @@ brew install --yes --quiet \
   cmake \
   lld \
   llvm \
+  spirv-cross \
+  spirv-headers \
   spirv-llvm-translator \
+  spirv-tools \
   >> $LOGFILE 2>&1
 
 echo "....Cleaning up"
