@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+set -eu
+
 echo "* Re-create Distrobox *"
 
 source set-host-envars
@@ -26,18 +28,8 @@ distrobox assemble create \
 echo "..You need to set a '$USER' password to use 'sudo' in the container"
 distrobox enter $CONTAINER_NAME -- sudo passwd $USER
 
-cp -rp populate-container $CONTAINER_HOME
-pushd $CONTAINER_HOME/populate-container
-  distrobox enter $CONTAINER_NAME -- ./0-populate-container.sh
-popd
-
-mkdir --parents $HOME/.local/bin
-export ENTRY_SCRIPT=$HOME/.local/bin/$CONTAINER_NAME
-echo "..Creating command line entry script $ENTRY_SCRIPT"
-echo \
-  "distrobox enter $CONTAINER_NAME" \
-  > $ENTRY_SCRIPT
-chmod +x $ENTRY_SCRIPT
+echo ""
+podman image list
 
 echo "* Finished Re-create Distrobox *"
 echo ""
