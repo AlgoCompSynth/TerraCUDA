@@ -13,6 +13,7 @@ sudo apt-get install -qqy \
   cmake \
   file \
   git \
+  libcurl4-openssl-dev \
   plocate \
   vim-nox \
   >> $LOGFILE 2>&1
