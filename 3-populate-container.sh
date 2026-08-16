@@ -16,7 +16,6 @@ pushd $CONTAINER_HOME/populate-container > /dev/null
 
   fi
 
-
   echo "..Installing 'resolute' packages"
   distrobox enter $CONTAINER_NAME -- ./0-resolute-packages.sh
 
@@ -28,6 +27,14 @@ pushd $CONTAINER_HOME/populate-container > /dev/null
 
   echo "..Installing LLVM & Terra"
   distrobox enter $CONTAINER_NAME -- ./3-localbin-terralang.sh
+
+  if [[ "$COMPUTE_MODE" == "CUDA" ]]
+
+  then
+    distrobox enter $CONTAINER_NAME -- ./4-llama-cpp.sh
+
+  fi
+
 
 popd > /dev/null
 

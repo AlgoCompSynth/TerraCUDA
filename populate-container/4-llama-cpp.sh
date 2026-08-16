@@ -8,6 +8,21 @@ rm --force $LOGFILE
 
 mkdir --parents $HOME/.local/bin
 
+echo "....Activating Homebrew PATH"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+
+echo "....Installing Pi coding agent"
+brew install --yes --quiet \
+  pi-coding-agent \
+  >> $LOGFILE 2>&1
+
+echo "....Cleaning up"
+brew cleanup --prune all --scrub --quiet \
+  >> $LOGFILE 2>&1
+
+echo "....Installing pi-llama plugin"
+pi install git:github.com/huggingface/pi-llama
+
 # https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md
 export LLAMA_CPP_VERSION=b10448
 export LLAMA_CPP_REPO=https://github.com/ggml-org/llama.cpp
@@ -20,14 +35,17 @@ pushd $HOME/Projects > /dev/null
   cd llama.cpp
 
   echo "....Configuring llama.cpp"
-  cmake -B build -DGGML_CUDA=ON
+  cmake -B build -DGGML_CUDA=ON \
     >> $LOGFILE 2>&1
 
   echo "....Compiling llama.cpp"
   /usr/bin/time cmake --build build --config Release -j$(nproc) \
-  /usr/bin/time make install -j$(nproc) \
+    >> $LOGFILE 2>&1
   echo "....Installing llama.cpp"
-  sudo cmake --install build
+  sudo cmake --install build \
+    >> $LOGFILE 2>&1
+  sudo /usr/sbin/ldconfig --verbose \
+    >> $LOGFILE 2>&1
   echo "....llama.cpp installed"
 
 popd > /dev/null
