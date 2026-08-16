@@ -10,7 +10,9 @@ export DEBIAN_FRONTEND=noninteractive
 sudo apt-get install -qqy \
   apt-file \
   build-essential \
+  cmake \
   file \
   git \
   plocate \
+  vim-nox \
   >> $LOGFILE 2>&1
